@@ -189,14 +189,16 @@ if uploaded_file:
 
     for idx, row in df.iterrows():
         st.markdown(f"<div class='big-font'>🔍 Assessing: {row['Country']}</div>", unsafe_allow_html=True)
-        state = agent_graph.invoke({"row": row.to_dict()})
-
+    
+        with st.spinner(f"🤖 Assessing {row['Country']}... please wait"):
+            state = agent_graph.invoke({"row": row.to_dict()})
+    
         with st.expander(f"📊 Detailed Results for {row['Country']}"):
             st.markdown(f"<div class='result-box'>🧪 **Risk & Impact**<br>{state['risk_summary']}</div>", unsafe_allow_html=True)
             st.markdown(f"<div class='result-box'>💰 **Opportunity & ROI**<br>{state['opportunity_summary']}</div>", unsafe_allow_html=True)
             st.markdown(f"<div class='result-box'>🏗️ **Readiness & Capability**<br>{state['readiness_summary']}</div>", unsafe_allow_html=True)
             st.markdown(f"<div class='result-box'>🚦 **Final Decision**<br>{state['final_decision']}</div>", unsafe_allow_html=True)
-
+    
         results.append({
             "Country": row["Country"],
             "Risk Summary": state["risk_summary"],
@@ -204,6 +206,7 @@ if uploaded_file:
             "Readiness Summary": state["readiness_summary"],
             "Final Decision": state["final_decision"]
         })
+    
 
     result_df = pd.DataFrame(results)
     st.download_button("📥 Download Launch Report", result_df.to_csv(index=False), "launch_assessment_report.csv")
