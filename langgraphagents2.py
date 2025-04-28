@@ -20,11 +20,12 @@ st.markdown("""
         font-weight: 600;
     }
     .result-box {
-        border: 1px solid #DDD;
+        border: 1px solid var(--secondary-color);
         border-radius: 10px;
         padding: 15px;
         margin-top: 10px;
-        background-color: #f9f9f9;
+        background-color: var(--background-color-secondary);
+        color: var(--text-color);
     }
     </style>
 """, unsafe_allow_html=True)
